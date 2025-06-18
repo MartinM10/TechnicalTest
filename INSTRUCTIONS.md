@@ -8,20 +8,24 @@ The goal is to demonstrate your understanding of the codebase and your ability t
 ### Tasks
 
 1. **Implement task completion status functionality**
-   - [ ] You can select a task as completed, but the status is not saved in the backend. Complete the implementation so that the status is saved in the backend and displayed in the frontend.
+
+   - [x] You can select a task as completed, but the status is not saved in the backend. Complete the implementation so that the status is saved in the backend and displayed in the frontend.
 
 2. **Implement delete task functionality**.
    Allow users to delete individual todos from the list, both in the backend and frontend.
+
    - [ ] Add a delete button next to each task in the UI.
    - [ ] Implement the backend API endpoint to handle task deletion.
 
 3. **Auto-load Tasks**. The application should automatically fetch the todo list when:
+
    - [ ] The page loads.
    - [ ] The user adds a new task.
    - [ ] The user deletes a task.
    - [ ] The user marks a task as completed.
 
 4. **Add Descriptions and Favorite Tasks Section**
+
    - [ ] Add a description field to each task.
    - [ ] Introduce the concept of a `favorite` tasks.
    - [ ] Add a way to mark/unmark tasks as favorite.
