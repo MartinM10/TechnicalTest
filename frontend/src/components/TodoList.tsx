@@ -5,9 +5,12 @@ import TodoItem from "./TodoItem";
 interface TodoListProps {
   todos: Todo[];
   toggleTodo: (id: number) => void;
+  handleFavorite: (id: number) => void;
+  handleDelete: (id: number) => void;
+  highlight?: boolean;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo }) => {
+const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, handleFavorite, handleDelete, highlight }) => {
   return (
     <ul className="space-y-2">
       {todos.map((todo) => (
@@ -15,6 +18,9 @@ const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo }) => {
           key={todo.id}
           todo={todo}
           toggleTodo={toggleTodo}
+          handleFavorite={handleFavorite}
+          handleDelete={handleDelete}
+          highlight={highlight}
         />
       ))}
     </ul>

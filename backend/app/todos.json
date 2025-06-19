@@ -2,36 +2,50 @@
   {
     "id": 1,
     "title": "Learn React",
-    "completed": true
+    "completed": true,
+    "description": "Learn the fundamentals of React to build interactive user interfaces.",
+    "favorite": false
   },
   {
     "id": 2,
     "title": "Learn TypeScript",
-    "completed": true
+    "completed": true,
+    "description": null,
+    "favorite": false
   },
   {
     "id": 3,
     "title": "Learn Vite",
-    "completed": false
+    "completed": true,
+    "description": "Explore Vite as a fast build tool for frontend projects.",
+    "favorite": true
   },
   {
     "id": 4,
     "title": "Learn FastAPI",
-    "completed": false
+    "completed": true,
+    "description": "Create fast and modern APIs using FastAPI in Python.",
+    "favorite": true
   },
   {
     "id": 5,
     "title": "Learn Docker",
-    "completed": false
+    "completed": false,
+    "description": "Containerize applications and manage environments with Docker.",
+    "favorite": false
   },
   {
     "id": 6,
     "title": "Learn PostgreSQL",
-    "completed": false
+    "completed": false,
+    "description": null,
+    "favorite": false
   },
   {
     "id": 7,
     "title": "Learn Tailwind CSS",
-    "completed": false
+    "completed": false,
+    "description": null,
+    "favorite": false
   }
 ]

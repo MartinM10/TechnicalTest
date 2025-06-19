@@ -1,11 +1,20 @@
 // src/App.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Todo } from "./types/todo";
-import { getTodos, createTodo, toggleTodoStatus } from "./api/todo";
+import {
+  getTodos,
+  createTodo,
+  toggleTodoStatus,
+  deleteTodo,
+  updateFavoriteStatus,
+} from "./api/todo";
+import TodoList from "./components/TodoList";
+import TodoForm from "./components/TodoForm";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const loadTodos = () => {
     getTodos().then((data) => {
@@ -13,18 +22,39 @@ function App() {
     });
   };
 
+  // Cargar tareas al montar el componente
+  useEffect(() => {
+    loadTodos();
+  }, []);
+
   const addTodo = () => {
     if (!title.trim()) return;
-    createTodo(title);
+    createTodo(title, description).then(() => {
+      setTitle("");
+      setDescription("");
+      loadTodos(); // Recargar después de crear
+    });
   };
 
   const toggleTodo = (id: number) => {
     const todo = todos.find((t) => t.id === id);
     if (!todo) return;
-
-    toggleTodoStatus(id, todo.completed).then((updated) => {
-      setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
+    toggleTodoStatus(id, !!todo.completed).then(() => {
+      loadTodos(); // Recargar después de cambiar estado
     });
+  };
+
+  const handleDelete = (id: number) => {
+    deleteTodo(id).then(() => {
+      loadTodos(); // Recargar después de borrar
+    });
+  };
+
+  const handleFavorite = (id: number) => {
+    const todo = todos.find((t) => t.id === id);
+    if (!todo) return;
+    updateFavoriteStatus(id, !!todo.favorite);
+    loadTodos(); // Recargar después de actualizar favorito
   };
 
   return (
@@ -32,45 +62,41 @@ function App() {
       <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-4 text-gray-800">ToDo List</h1>
 
-        <div className="flex gap-2 mb-8">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Add a new task..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={addTodo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition cursor-pointer"
-          >
-            Add
-          </button>
-          <button
-            onClick={loadTodos}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition cursor-pointer"
-          >
-            Load Tasks
-          </button>
-        </div>
+        <TodoForm
+          title={title}
+          description={description}
+          setTitle={setTitle}
+          setDescription={setDescription}
+          addTodo={addTodo}
+          loadTodos={loadTodos}
+        />
 
-        <ul className="space-y-2">
-          {todos.map((todo) => (
-            <li
-              key={todo.id}
-              className={`flex items-center gap-2 bg-gray-50 p-3 rounded-lg border border-gray-200 ${
-                todo.completed ? "line-through text-gray-400" : ""
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleTodo(todo.id)}
-                className="cursor-pointer"
-              />
-              <span>{todo.title}</span>
-            </li>
-          ))}
-        </ul>
+        {/* Sección de tareas favoritas usando el componente TodoList*/}
+        <h2 className="text-xl font-semibold mt-6 mb-2 text-yellow-600">Favoritas</h2>
+        {todos.filter((todo) => todo.favorite).length === 0 ? (
+          <div className="text-gray-400 text-sm mb-8">No hay tareas favoritas.</div>
+        ) : (
+          <TodoList
+            todos={todos.filter((todo) => todo.favorite)}
+            toggleTodo={toggleTodo}
+            handleFavorite={handleFavorite}
+            handleDelete={handleDelete}
+            highlight={true}
+          />
+        )}
+
+        {/* Sección de tareas normales usando el componente TodoList */}
+        <h2 className="text-xl font-semibold mb-2 text-gray-700">Otras tareas</h2>
+        {todos.filter((todo) => !todo.favorite).length === 0 ? (
+          <div className="text-gray-400 text-sm">No hay otras tareas.</div>
+        ) : (
+          <TodoList
+            todos={todos.filter((todo) => !todo.favorite)}
+            toggleTodo={toggleTodo}
+            handleFavorite={handleFavorite}
+            handleDelete={handleDelete}
+          />
+        )}
       </div>
     </div>
   );
