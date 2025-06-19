@@ -11,7 +11,7 @@ This is a Todo list application developed as a technical test, with a FastAPI (P
 ---
 ## Final Screenshot
 
-![ToDo List UI](frontend/public/ToDo-List.svg)
+![ToDo List UI](frontend/public/ToDo-List.png)
 
 ## Installation and Running
 
