@@ -28,9 +28,17 @@ cd technical-test
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+```bash
+source .venv/bin/activate # On Linux
+```
+or
+```bash
+.venv\Scripts\activate # On Windows
+```
+then install the dependencies
+```bash
 pip install -r requirements.txt
-uvicorn app.main:app --reload
 ```
 
 ### 3. Frontend (React + Vite)
